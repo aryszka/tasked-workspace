@@ -1,0 +1,3 @@
+go $@\
+	code.google.com/p/tasked/app\
+	code.google.com/p/tasked

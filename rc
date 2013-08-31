@@ -1,0 +1,43 @@
+wsdir=$(dirname $BASH_SOURCE)
+export GOPATH=$(readlink -f $wsdir/..)
+export TASKED_CONF=$GOPATH/config
+export TEST_DATA=$GOPATH/test
+bindir=$GOPATH/bin
+export PATH=$PATH:$GOROOT/bin:$bindir
+export TESTUSR=test
+export TESTPWD=testpwd
+
+function ensuredir {
+	if [ $1 -a ! -d $1 ]; then
+		if [ -e $1 ]; then
+			rm -rf $1
+		fi
+		mkdir $1
+	fi
+}
+srcdir=$GOPATH/src
+ensuredir $bindir
+ensuredir $srcdir
+ensuredir $TASKED_CONF
+ensuredir $TEST_DATA
+chmod -R o+r+w+X $GOPATH/test
+
+if [ ! -d src/code.google.com/p/tasked ]; then
+	if [ -e src/code.google.com/p/tasked ]; then
+		rm -rf src/code.google.com/p/tasked
+	fi
+	hg clone https://code.google.com/p/tasked $srcdir/code.google.com/p/tasked
+fi
+go get code.google.com/p/gcfg
+go get code.google.com/p/gopam
+
+if [ -e $bindir/tsk ]; then
+	rm -rf $bindir/tsk
+fi
+cp $wsdir/tsk $bindir
+
+# ensure test user
+if ! grep '^'$TESTUSR':' /etc/passwd > /dev/null; then
+	useradd -p "" $TESTUSR &> /dev/null
+fi
+echo $TESTUSR:$TESTPWD | chpasswd &> /dev/null
