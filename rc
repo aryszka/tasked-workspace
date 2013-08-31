@@ -12,15 +12,16 @@ function ensuredir {
 		if [ -e $1 ]; then
 			rm -rf $1
 		fi
-		mkdir $1
+		mkdir -p $1
 	fi
 }
 srcdir=$GOPATH/src
 ensuredir $bindir
 ensuredir $srcdir
 ensuredir $TASKED_CONF
-ensuredir $TEST_DATA
-chmod -R o+r+w+X $GOPATH/test
+
+rm -rf $TEST_DATA
+mkdir -p $TEST_DATA
 
 if [ ! -d src/code.google.com/p/tasked ]; then
 	if [ -e src/code.google.com/p/tasked ]; then
