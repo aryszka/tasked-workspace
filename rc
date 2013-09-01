@@ -21,7 +21,6 @@ ensuredir $srcdir
 ensuredir $TASKED_CONF
 
 rm -rf $TEST_DATA
-mkdir -p $TEST_DATA
 
 if [ ! -d src/code.google.com/p/tasked ]; then
 	if [ -e src/code.google.com/p/tasked ]; then
