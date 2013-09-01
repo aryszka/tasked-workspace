@@ -1,11 +1,18 @@
 wsdir=$(dirname $BASH_SOURCE)
 export GOPATH=$(readlink -f $wsdir/..)
-export TASKED_CONF=$GOPATH/config
-export TEST_DATA=$GOPATH/test
 bindir=$GOPATH/bin
-export PATH=$PATH:$GOROOT/bin:$bindir
+export PATH=$PATH:$bindir
+
+
+# Optional settings:
+
+# export TASKED_CONF=$GOPATH/config
+export TEST_DATA=$GOPATH/test
 export TESTUSR=test
 export TESTPWD=testpwd
+
+
+# Setup workspace:
 
 function ensuredir {
 	if [ $1 -a ! -d $1 ]; then
@@ -18,7 +25,10 @@ function ensuredir {
 srcdir=$GOPATH/src
 ensuredir $bindir
 ensuredir $srcdir
-ensuredir $TASKED_CONF
+
+if [ $TASKED_CONF ]; then
+	ensuredir $TASKED_CONF
+fi
 
 rm -rf $TEST_DATA
 
