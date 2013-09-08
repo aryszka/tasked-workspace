@@ -39,10 +39,8 @@ if [ ! -d src/code.google.com/p/tasked ]; then
 	if [ -e src/code.google.com/p/tasked ]; then
 		rm -rf src/code.google.com/p/tasked
 	fi
-	hg clone https://code.google.com/p/tasked $srcdir/code.google.com/p/tasked
+	go get code.google.com/p/tasked
 fi
-go get code.google.com/p/gcfg
-go get code.google.com/p/gopam
 
 if [ -e $bindir/tsk ]; then
 	rm -rf $bindir/tsk
