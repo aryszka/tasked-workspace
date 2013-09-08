@@ -1,8 +1,53 @@
-go $@\
-	code.google.com/p/tasked/sec\
-	code.google.com/p/tasked/app\
-	code.google.com/p/tasked
+#! /bin/bash
+
+set -e
+
+function defaultgo {
+	go $@\
+		code.google.com/p/tasked/sec\
+		code.google.com/p/tasked/app\
+		code.google.com/p/tasked
+}
+
+function selfcert {
+	key= cert=
+	while :
+	do
+		case $1 in
+		-key) shift; key=$1;;
+		-cert) shift; cert=$1;;
+		"") break;;
+		*) shift;;
+		esac
+	done
+	if [ ! "$key" -o ! "$cert" ]; then
+		echo 'tsk selfcert -key <key-output-path> -cert <cert-output-path>'
+		exit 1
+	fi
+	mkdir -p $(dirname $key)
+	mkdir -p $(dirname $cert)
+	openssl req -new -x509 -days 1095 -nodes -out "$cert" -keyout "$key"
+}
+
+function testauth {
+	go test code.google.com/p/tasked/sec -auth
+}
+
+function testintime {
+	go test code.google.com/p/tasked/sec -testInTime
+}
+
+case $1 in
+selfcert)
+	selfcert $@;;
+testauth)
+	testauth;;
+testintime)
+	testintime;;
+*)
+	defaultgo $@;;
+esac
 
 if [ $1 == test ]; then
-	chmod -R o+r+w+X $GOPATH/test
+	chmod -Rf o+r+w+X $testdata
 fi

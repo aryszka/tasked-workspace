@@ -1,3 +1,7 @@
+#! /bin/bash
+
+shopt -s extglob
+
 wsdir=$(dirname $BASH_SOURCE)
 export GOPATH=$(readlink -f $wsdir/..)
 bindir=$GOPATH/bin
@@ -5,11 +9,10 @@ export PATH=$PATH:$bindir
 
 
 # Optional settings:
-
-# export TASKED_CONF=$GOPATH/config
-export TEST_DATA=$GOPATH/test
-export TESTUSR=test
-export TESTPWD=testpwd
+# export taskedconf=$GOPATH/config
+export testdata=$GOPATH/test
+export testusr=test
+export testpwd=testpwd
 
 
 # Setup workspace:
@@ -26,11 +29,11 @@ srcdir=$GOPATH/src
 ensuredir $bindir
 ensuredir $srcdir
 
-if [ $TASKED_CONF ]; then
-	ensuredir $TASKED_CONF
+if [ $taskedconf ]; then
+	ensuredir $taskedconf
 fi
 
-rm -rf $TEST_DATA
+rm -rf $testdata/!(tls|settings)
 
 if [ ! -d src/code.google.com/p/tasked ]; then
 	if [ -e src/code.google.com/p/tasked ]; then
@@ -47,7 +50,7 @@ fi
 cp $wsdir/tsk $bindir
 
 # ensure test user
-if ! grep '^'$TESTUSR':' /etc/passwd > /dev/null; then
-	useradd -p "" $TESTUSR &> /dev/null
+if ! grep '^'$testusr':' /etc/passwd > /dev/null; then
+	useradd -p "" $testusr &> /dev/null
 fi
-echo $TESTUSR:$TESTPWD | chpasswd &> /dev/null
+echo $testusr:$testpwd | chpasswd &> /dev/null
