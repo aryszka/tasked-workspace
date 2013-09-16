@@ -11,6 +11,7 @@ export PATH=$PATH:$bindir
 # Optional settings:
 # export taskedconf=$GOPATH/config
 export testdata=$GOPATH/test
+export testdir=$testdata/testdir
 export testusr=test
 export testpwd=testpwd
 

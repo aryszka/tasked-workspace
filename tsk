@@ -5,7 +5,6 @@ set -e
 function defaultgo {
 	go $@\
 		code.google.com/p/tasked/sec\
-		code.google.com/p/tasked/app\
 		code.google.com/p/tasked
 }
 
@@ -31,10 +30,17 @@ function selfcert {
 
 function testauth {
 	go test code.google.com/p/tasked/sec -auth
+	go test code.google.com/p/tasked -auth
 }
 
 function testintime {
 	go test code.google.com/p/tasked/sec -testInTime
+	go test code.google.com/p/tasked -testInTime
+}
+
+function testfull {
+	go test code.google.com/p/tasked/sec -testInTime
+	go test code.google.com/p/tasked -testInTime -auth
 }
 
 case $1 in
@@ -44,6 +50,8 @@ testauth)
 	testauth;;
 testintime)
 	testintime;;
+testfull)
+	testfull;;
 *)
 	defaultgo $@;;
 esac
