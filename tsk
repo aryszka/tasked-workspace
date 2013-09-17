@@ -28,34 +28,23 @@ function selfcert {
 	openssl req -new -x509 -days 1095 -nodes -out "$cert" -keyout "$key"
 }
 
-function testauth {
-	go test code.google.com/p/tasked/sec -auth
-	go test code.google.com/p/tasked -auth
-}
-
-function testintime {
-	go test code.google.com/p/tasked/sec -testInTime
-	go test code.google.com/p/tasked -testInTime
-}
-
-function testfull {
-	go test code.google.com/p/tasked/sec -testInTime
-	go test code.google.com/p/tasked -testInTime -auth
+function test {
+	long=""
+	if [ "$1" == long ]; then
+		long="-test.long"
+	fi
+	go test code.google.com/p/tasked/sec $long
+	go test -i code.google.com/p/tasked
+	go test code.google.com/p/tasked
+	chmod -Rf o+r+w+X $testdata
 }
 
 case $1 in
 selfcert)
 	selfcert $@;;
-testauth)
-	testauth;;
-testintime)
-	testintime;;
-testfull)
-	testfull;;
+test)
+	shift
+	test $@;;
 *)
 	defaultgo $@;;
 esac
-
-if [ $1 == test ]; then
-	chmod -Rf o+r+w+X $testdata
-fi
