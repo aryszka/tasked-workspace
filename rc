@@ -36,6 +36,8 @@ fi
 
 rm -rf $testdata/!(tls|settings)
 
+go get code.google.com/p/gcfg
+go get code.google.com/p/gopam
 if [ ! -d src/code.google.com/p/tasked ]; then
 	if [ -e src/code.google.com/p/tasked ]; then
 		rm -rf src/code.google.com/p/tasked
@@ -49,7 +51,7 @@ fi
 cp $wsdir/tsk $bindir
 
 # ensure test user
-if ! grep '^'$testusr':' /etc/passwd > /dev/null; then
-	useradd -p "" $testusr &> /dev/null
-fi
-echo $testusr:$testpwd | chpasswd &> /dev/null
+# if ! grep '^'$testusr':' /etc/passwd > /dev/null; then
+# 	useradd -p "" $testusr &> /dev/null
+# fi
+# echo $testusr:$testpwd | chpasswd &> /dev/null
