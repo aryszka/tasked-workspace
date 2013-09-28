@@ -4,7 +4,7 @@ set -e
 
 function defaultgo {
 	go $@\
-		code.google.com/p/tasked/sec\
+		code.google.com/p/tasked/auth\
 		code.google.com/p/tasked
 }
 
@@ -30,10 +30,10 @@ function selfcert {
 
 function test {
 	long=""
-	if [ "$1" == long ]; then
+	if [ "$1" == -long ]; then
 		long="-test.long"
 	fi
-	go test code.google.com/p/tasked/sec $long
+	go test code.google.com/p/tasked/auth $long
 	go test -i code.google.com/p/tasked
 	go test code.google.com/p/tasked
 	chmod -Rf o+r+w+X $testdata
