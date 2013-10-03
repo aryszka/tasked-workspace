@@ -29,14 +29,40 @@ function selfcert {
 }
 
 function test {
-	long=""
-	if [ "$1" == -long ]; then
-		long="-test.long"
-	fi
+	long="" pam="" propsroot="" modpropsroot=""
+	while :
+	do
+		case $1 in
+		-long) shift; long="-test.long";;
+		-pam) shift; pam="-test.pam";;
+		-propsroot) shift; propsroot="-test.propsroot";;
+		-modpropsroot) shift; modpropsroot="-test.modpropsroot";;
+		"") break;;
+		*) shift;;
+		esac
+	done
 	go test code.google.com/p/tasked/auth $long
 	go test -i code.google.com/p/tasked
-	go test code.google.com/p/tasked
+	go test code.google.com/p/tasked $pam
+	if [ "$propsroot" != "" ]; then
+		go test code.google.com/p/tasked $propsroot
+	fi
+	if [ "$modpropsroot" != "" ]; then
+		go test code.google.com/p/tasked $modpropsroot
+	fi
 	chmod -Rf o+r+w+X $testdata
+}
+
+function createTestUser {
+	testuser=testuser
+	testpwd=testpwd
+	if [ "$1" != "" ]; then testuser=$1; fi
+	if [ "$2" != "" ]; then testpwd=$2; fi
+
+	if ! grep '^'$testuser':' /etc/passwd > /dev/null; then
+		useradd -p "" $testuser &> /dev/null
+	fi
+	echo $testuser:$testpwd | chpasswd &> /dev/null
 }
 
 case $1 in
@@ -45,6 +71,9 @@ selfcert)
 test)
 	shift
 	test $@;;
+testuser)
+	shift
+	createTestUser $@;;
 *)
 	defaultgo $@;;
 esac

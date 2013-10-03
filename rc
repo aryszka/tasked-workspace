@@ -12,8 +12,6 @@ export PATH=$PATH:$bindir
 # export taskedconf=$GOPATH/config
 export testdata=$GOPATH/test
 export testdir=$testdata/testdir
-export testusr=test
-export testpwd=testpwd
 
 
 # Setup workspace:
@@ -49,9 +47,3 @@ if [ -e $bindir/tsk ]; then
 	rm -rf $bindir/tsk
 fi
 cp $wsdir/tsk $bindir
-
-# ensure test user
-# if ! grep '^'$testusr':' /etc/passwd > /dev/null; then
-# 	useradd -p "" $testusr &> /dev/null
-# fi
-# echo $testusr:$testpwd | chpasswd &> /dev/null
