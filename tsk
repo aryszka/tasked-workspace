@@ -29,14 +29,15 @@ function selfcert {
 }
 
 function test {
-	long="" pam="" propsroot="" modpropsroot=""
+	long="" pam="" propsroot="" modpropsroot="" getdirroot=""
 	while :
 	do
 		case $1 in
-		-long) shift; long="-test.long";;
-		-pam) shift; pam="-test.pam";;
-		-propsroot) shift; propsroot="-test.propsroot";;
-		-modpropsroot) shift; modpropsroot="-test.modpropsroot";;
+		-long) long="-test.long"; shift;;
+		-pam) pam="-test.pam"; shift;;
+		-propsroot) propsroot="-test.propsroot"; shift;;
+		-modpropsroot) modpropsroot="-test.modpropsroot"; shift;;
+		-getdirroot) getdirroot="-test.getdirroot"; shift;;
 		"") break;;
 		*) shift;;
 		esac
@@ -50,7 +51,13 @@ function test {
 	if [ "$modpropsroot" != "" ]; then
 		go test code.google.com/p/tasked $modpropsroot
 	fi
+	if [ "$getdirroot" != "" ]; then
+		go test code.google.com/p/tasked $getdirroot
+	fi
 	chmod -Rf o+r+w+X $testdata
+	if [ "$testdir" != "" ]; then
+		rm -rf $testdir
+	fi
 }
 
 function createTestUser {

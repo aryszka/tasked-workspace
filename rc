@@ -1,6 +1,9 @@
 #! /bin/bash
 
 shopt -s extglob
+if [ "$GOROOT" == "" ]; then
+	echo GOROOT is not set.
+fi
 
 wsdir=$(dirname $BASH_SOURCE)
 export GOPATH=$(readlink -f $wsdir/..)
