@@ -4,7 +4,9 @@ set -e
 
 function defaultgo {
 	go $@\
+		code.google.com/p/tasked/util\
 		code.google.com/p/tasked/auth\
+		code.google.com/p/tasked/htfile\
 		code.google.com/p/tasked
 }
 
@@ -42,18 +44,21 @@ function test {
 		*) shift;;
 		esac
 	done
+	go test code.google.com/p/tasked/util
 	go test code.google.com/p/tasked/auth $long
-	go test -i code.google.com/p/tasked
-	go test code.google.com/p/tasked $pam
+	go test -i code.google.com/p/tasked/htfile
+	go test code.google.com/p/tasked/htfile
 	if [ "$propsroot" != "" ]; then
-		go test code.google.com/p/tasked $propsroot
+		go test code.google.com/p/tasked/htfile $propsroot
 	fi
 	if [ "$modpropsroot" != "" ]; then
-		go test code.google.com/p/tasked $modpropsroot
+		go test code.google.com/p/tasked/htfile $modpropsroot
 	fi
 	if [ "$getdirroot" != "" ]; then
-		go test code.google.com/p/tasked $getdirroot
+		go test code.google.com/p/tasked/htfile $getdirroot
 	fi
+	go test -i code.google.com/p/tasked
+	go test code.google.com/p/tasked $pam
 	chmod -Rf o+r+w+X $testdata
 	if [ "$testdir" != "" ]; then
 		rm -rf $testdir
