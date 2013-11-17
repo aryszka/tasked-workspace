@@ -4,9 +4,10 @@ set -e
 
 function defaultgo {
 	go $@\
-		code.google.com/p/tasked/util\
+		code.google.com/p/tasked/share\
 		code.google.com/p/tasked/auth\
 		code.google.com/p/tasked/htfile\
+		code.google.com/p/tasked/htauth\
 		code.google.com/p/tasked
 }
 
@@ -44,10 +45,14 @@ function test {
 		*) shift;;
 		esac
 	done
-	go test code.google.com/p/tasked/util
+	go test -i code.google.com/p/tasked/share
+	go test code.google.com/p/tasked/share
+	go test -i code.google.com/p/tasked/auth
 	go test code.google.com/p/tasked/auth $long
 	go test -i code.google.com/p/tasked/htfile
 	go test code.google.com/p/tasked/htfile
+	go test -i code.google.com/p/tasked/htauth
+	go test code.google.com/p/tasked/htauth
 	if [ "$propsroot" != "" ]; then
 		go test code.google.com/p/tasked/htfile $propsroot
 	fi
