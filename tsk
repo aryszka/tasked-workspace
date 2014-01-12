@@ -54,6 +54,8 @@ function test {
 	go test code.google.com/p/tasked/htfile
 	go test -i code.google.com/p/tasked/htauth
 	go test code.google.com/p/tasked/htauth
+	go test -i code.google.com/p/tasked/htproc
+	go test code.google.com/p/tasked/htproc $long
 	if [ "$propsroot" != "" ]; then
 		go test code.google.com/p/tasked/htfile $propsroot
 	fi
