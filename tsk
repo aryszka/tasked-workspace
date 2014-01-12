@@ -45,6 +45,7 @@ function test {
 		*) shift;;
 		esac
 	done
+	go install code.google.com/p/tasked/testproc
 	go test -i code.google.com/p/tasked/share
 	go test code.google.com/p/tasked/share
 	go test -i code.google.com/p/tasked/auth
