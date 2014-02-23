@@ -8,6 +8,8 @@ function defaultgo {
 		code.google.com/p/tasked/auth\
 		code.google.com/p/tasked/htfile\
 		code.google.com/p/tasked/htauth\
+		code.google.com/p/tasked/htproc\
+		code.google.com/p/tasked/keyval\
 		code.google.com/p/tasked
 }
 
@@ -49,13 +51,15 @@ function test {
 	go test -i code.google.com/p/tasked/share
 	go test code.google.com/p/tasked/share
 	go test -i code.google.com/p/tasked/auth
-	go test code.google.com/p/tasked/auth $long
-	go test -i code.google.com/p/tasked/htfile
-	go test code.google.com/p/tasked/htfile
+	go test code.google.com/p/tasked/auth
 	go test -i code.google.com/p/tasked/htauth
 	go test code.google.com/p/tasked/htauth
 	go test -i code.google.com/p/tasked/htproc
 	go test code.google.com/p/tasked/htproc $long
+	go test -i code.google.com/p/tasked/keyval
+	go test code.google.com/p/tasked/keyval
+	go test -i code.google.com/p/tasked/htfile
+	go test code.google.com/p/tasked/htfile
 	if [ "$propsroot" != "" ]; then
 		go test code.google.com/p/tasked/htfile $propsroot
 	fi
@@ -66,7 +70,7 @@ function test {
 		go test code.google.com/p/tasked/htfile $getdirroot
 	fi
 	go test -i code.google.com/p/tasked
-	go test code.google.com/p/tasked $pam
+	go test code.google.com/p/tasked $pam $long
 	chmod -Rf o+r+w+X $testdata
 	if [ "$testdir" != "" ]; then
 		rm -rf $testdir
