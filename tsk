@@ -34,15 +34,11 @@ function selfcert {
 }
 
 function test {
-	long="" pam="" propsroot="" modpropsroot="" getdirroot=""
+	long=""
 	while :
 	do
 		case $1 in
 		-long) long="-test.long"; shift;;
-		-pam) pam="-test.pam"; shift;;
-		-propsroot) propsroot="-test.propsroot"; shift;;
-		-modpropsroot) modpropsroot="-test.modpropsroot"; shift;;
-		-getdirroot) getdirroot="-test.getdirroot"; shift;;
 		"") break;;
 		*) shift;;
 		esac
@@ -60,18 +56,10 @@ function test {
 	go test code.google.com/p/tasked/keyval
 	go test -i code.google.com/p/tasked/htfile
 	go test code.google.com/p/tasked/htfile
-	if [ "$propsroot" != "" ]; then
-		go test code.google.com/p/tasked/htfile $propsroot
-	fi
-	if [ "$modpropsroot" != "" ]; then
-		go test code.google.com/p/tasked/htfile $modpropsroot
-	fi
-	if [ "$getdirroot" != "" ]; then
-		go test code.google.com/p/tasked/htfile $getdirroot
-	fi
 	go test -i code.google.com/p/tasked
-	go test code.google.com/p/tasked $pam $long
+	go test code.google.com/p/tasked $long
 	chmod -Rf o+r+w+X $testdata
+	chmod -Rf o+r+w+X pkg
 	if [ "$testdir" != "" ]; then
 		rm -rf $testdir
 	fi
